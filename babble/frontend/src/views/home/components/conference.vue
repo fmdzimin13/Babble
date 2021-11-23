@@ -88,40 +88,30 @@ export default {
           }
         })
         .then(response => {
-          console.log(roomInfo.id);
           state.connNum = response.data.connections.numberOfElements;
-        })
-        .catch(error => console.log(error));
+        });
     };
 
     getConnectionNum(props.roomInfo);
 
     const clickCategory = function(tag) {
-      // console.log("click category");
       store.commit("menu/setActiveCategory", tag);
-      router.push({
-        path: `/category/${tag}`
-      })
-      .then((() =>window.scrollTo(0,0) ))
+      router
+        .push({
+          path: `/category/${tag}`
+        })
+        .then(() => window.scrollTo(0, 0));
     };
 
     const clickHashtag = function(tag) {
-      // console.log(tag)
       store.commit("menu/setMenuActive", 3);
       store.commit("menu/setSearchWord", tag);
-      router.push({
-        path: `/search/${tag}`
-      })
-      .then((() =>window.scrollTo(0,0) ))
-    }
-
-    // if (props.roomInfo.id %= 1) {
-    //   console.log(propss.roomInfo.id)
-    //   let card = document.querySelector(".conference-card")
-    //   card.classList.add('change-color')
-    // } else {
-    //   card.classList.remove('change-color')
-    // }
+      router
+        .push({
+          path: `/search/${tag}`
+        })
+        .then(() => window.scrollTo(0, 0));
+    };
 
     return { state, clickCategory, getConnectionNum, clickHashtag };
   }

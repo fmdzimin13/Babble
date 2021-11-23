@@ -1,3 +1,6 @@
+![transparent](https://capsule-render.vercel.app/api?type=transparent&fontColor=703ee5&text=Ba:bble&height=150&fontSize=60&desc=당신을%20위한%20공간&descAlignY=75&descAlign=60)
+
+
 # Ba:bble
 
 ## 목차
@@ -20,16 +23,18 @@
 | 김주현                                                       | 김주연                                                  | 이지민                                                  | 조은지                                                  | 황성현                                                  |
 | ------------------------------------------------------------ | ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
 | ![jh.png](/uploads/f099e4146dce0c0946d66ad1430dc0f2/jh.png.jpg) | ![jy](/uploads/88094931803358a39705df43232e1f07/jy.png) | ![jm](/uploads/de0961883a918d25f53d94a7de7b95f9/jm.png) | ![ej](/uploads/e60efdd972598e51c47a6b29f17a7c32/ej.png) | ![sh](/uploads/f305971f3aa2c52a91e65b7c259c7269/sh.png) |
-| 팀장 / backend / 채팅                                        | back / API / 회원 관리 / 배포                           | front /                                                 | front /                                                 | backend / frontend / 화상 송출 / 배포                   |
+| 팀장 / backend / WebSocket 채팅                                        | back / REST API / 회원 관리 / 소셜 로그인 / 배포                           | front / 마이페이지 / WebSocket 이모티콘                                                 | front / 카테고리 페이지 / WebSocket 채팅 / WebRTC 화상 송출                                                 | full-stack / WebRTC 화상 송출 / 배포                   |
 | [j828h@naver.com](j828h@naver.com)                           | [wndusx1@gmail.com](wndusx1@gmail.com)                  | [jm9521@hanmail.net](jm9521@hanmail.net)                | [bagjo28841@gmail.com](bagjo28841@gmail.com)            | [ppko1233@gmail.com](ppko1233@gmail.com)                |
 
 ## ✏️ 프로젝트 명세
 ### 배포 환경 
 - __URL__ : https://i5a308.p.ssafy.io
 - __배포 여부__ : O
-- __접속 가능__ : 접속 가능 / <u>수정 중</u>
+- __접속 가능__ : 접속 가능
 - __HTTPS 적용__ : O 
-- __PORT__ : // 3rd Party에서 사용하는 포트가 있다면 기입해주세요. <- 기입 후 해당 주석 삭제
+- __PORT__ :  
+  - Mysql : 3306
+  - Openvidu : 8443
 <br>
 
 ### 개발 환경
@@ -52,23 +57,13 @@
 ### Design Resources 
 - 외부 템플릿 또는 에셋 없음 (무료 이미지, 폰트만 사용)
 
-__자체 제작 산출물__ (필요시 이미지 또는 설명 첨부) (미정)
-- LOGO
-- CardView
-- Button
-- Calendar
+__자체 제작 산출물__ (필요시 이미지 또는 설명 첨부)
+- Logo
+- favicon
 
 ### 핵심 라이브러리 
-- Front : Vuex, Vue Router, Element Plus
+- Front : Vuex, Vue Router, Element Plus, CSS media queries, Axios
 - Back : JPA, Hiberate, QueryDSL, Lombok
-
-### 서비스 구조
-<img src="/uploads/e048db22ebd22bed08d041804db56d2d/structure.PNG" width="80%">
-
-### ERD
-
-<img src="/uploads/d32ce6da95741f1c3c41f57d055ceff9/erd_0814.png" width="80%">
-
 
 
 ## 🏠 프로젝트 설계
@@ -76,19 +71,35 @@ __자체 제작 산출물__ (필요시 이미지 또는 설명 첨부) (미정)
 ### 프로토타입
 - [Figma](https://www.figma.com/file/STAQLXm4jjJnYXJD3aUkRr/Babble?node-id=0%3A1)
 
+### 서비스 구조
+<img src="/uploads/8677ec240c5aeef57954988e1acee826/structure.png" width="80%">
 
+### ERD
+
+<img src="/uploads/d32ce6da95741f1c3c41f57d055ceff9/erd_0814.png" width="80%">
+
+### [Wiki](https://lab.ssafy.com/s05-webmobile1-sub3/S05P13A308/-/wikis/Babble-Wiki/Babble-Wiki)
+
+## 🖥️ 포팅 매뉴얼
+- [Getting Started & Running the tests](./exec/README.md)
+- [Test Senario](./exec/senario.md)
+
+## 🙋‍♀️ 발표 자료
+- [기획 발표](/uploads/ad3f0d729ac68aba31fa2b1244f1c6bb/서울_3반_8팀_babble_기획발표.pdf)
+- [최종 발표](/uploads/610006a519545ce4bcb4d82854d73096/서울3반_A308_발표자료.pdf)
+- ![UCC](/uploads/30abc4636a67415b8d897a5295267eed/서울3반_A308_UCC경진대회.mp4)
 
 ## ❗ 주요 기능
 
 1. **[회원 가입 / 로그인]** E-mail / SNS로 쉽게 가입하세요.
 
-   <img src="/uploads/96f53f9bb253b569710429536e233c97/join.png" width="50%">
+   <img src="/uploads/96f53f9bb253b569710429536e233c97/join.png" width="30%">
 
-   <img src="/uploads/2605a6f145d374af8413169df32f72a4/join2.png" width="50%">
+   <img src="/uploads/2605a6f145d374af8413169df32f72a4/join2.png" width="30%">
 
    - 비회원도 방 시청 등 서비스 이용이 가능합니다.
 
-   <img src="/uploads/b31c0232ac799341eb07eaefdee11521/login.png" width="50%">
+   <img src="/uploads/b31c0232ac799341eb07eaefdee11521/login.png" width="30%">
 
 2. **[이야기방 생성]** 원하는 주제의 이야기 방을 생성하세요.
 

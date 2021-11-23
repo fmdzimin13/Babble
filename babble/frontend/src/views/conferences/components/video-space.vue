@@ -408,7 +408,6 @@ export default {
             store.commit("root/setUserName", result.data + "(호스트)");
           } else {
             store.commit("root/setUserName", result.data);
-            console.log(result.data);
           }
         })
         .catch(err => {
@@ -458,6 +457,9 @@ export default {
               document
                 .querySelector(`#${event.connection.connectionId} .vid`)
                 .classList.add("gradient-box");
+              document
+                .querySelector(`#${event.connection.connectionId} .subvid`)
+                .classList.add("gradient-box");
             }
           });
 
@@ -466,6 +468,9 @@ export default {
             if (document.querySelector(`#${event.connection.connectionId}`)) {
               document
                 .querySelector(`#${event.connection.connectionId} .vid`)
+                .classList.remove("gradient-box");
+              document
+                .querySelector(`#${event.connection.connectionId} .subvid`)
                 .classList.remove("gradient-box");
             }
           });
@@ -567,21 +572,13 @@ export default {
 
                   store.commit("root/setPublisher", publisher);
 
-                  console.log("%%%%%%%%%%%%%");
-                  console.log(state.session);
                   // --- Publish your stream ---
                   state.session.publish(publisher);
                 } else {
                   state.session.publish(state.publisher);
                 }
               })
-              .catch(error => {
-                console.log(
-                  "There was an error connecting to the session:",
-                  error.code,
-                  error.message
-                );
-              });
+              .catch(error => {});
           });
         });
     });
@@ -684,48 +681,40 @@ export default {
     const unpublish = function(stream) {
       if (state.isHost) {
         let cId = stream.stream.connection.connectionId;
-        axios
-          .delete(
-            `${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${state.mySessionId}/connection/${cId}`,
-            {
-              auth: {
-                username: "OPENVIDUAPP",
-                password: OPENVIDU_SERVER_SECRET
-              }
+        axios.delete(
+          `${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${state.mySessionId}/connection/${cId}`,
+          {
+            auth: {
+              username: "OPENVIDUAPP",
+              password: OPENVIDU_SERVER_SECRET
             }
-          )
-          .then(response => console.log(response))
-          .catch(error => console.log(error));
+          }
+        );
       }
     };
 
-    let socket = new SockJS("http://localhost:8080/ws");
+    // 권한 수정
+
+    let socket = new SockJS("https://i5a308.p.ssafy.io/ws");
     let authorization = state.isLoggedin;
     state.stompClient = Stomp.over(socket);
-    state.stompClient.connect(
-      { authorization },
-      frame => {
-        console.log(">>>>>>>>>> video-space success", frame);
-        state.stompClient.subscribe("/sub/emoji/" + state.mySessionId, res => {
-          let jsonBody = JSON.parse(res.body);
-          let e = {
-            nickname: jsonBody.nickname,
-            img: jsonBody.img,
-            style:
-              jsonBody.img.includes("wow") || jsonBody.img.includes("sad")
-                ? "medium2"
-                : "small2"
-          };
-          state.prevEmoji.push(e);
-          setTimeout(() => {
-            state.prevEmoji.shift();
-          }, 5000);
-        });
-      },
-      err => {
-        console.log("fail", err);
-      }
-    );
+    state.stompClient.connect({ authorization }, frame => {
+      state.stompClient.subscribe("/sub/emoji/" + state.mySessionId, res => {
+        let jsonBody = JSON.parse(res.body);
+        let e = {
+          nickname: jsonBody.nickname,
+          img: jsonBody.img,
+          style:
+            jsonBody.img.includes("wow") || jsonBody.img.includes("sad")
+              ? "medium2"
+              : "small2"
+        };
+        state.prevEmoji.push(e);
+        setTimeout(() => {
+          state.prevEmoji.shift();
+        }, 5000);
+      });
+    });
 
     const clickLike = function() {
       let emoji = document.querySelector(".like");
@@ -883,7 +872,6 @@ export default {
 
 .emoji-bubble .nickname {
   background: #9f05ff69;
-  opacity: 60%;
   border-radius: 0 10px 10px 0;
   padding-left: 7px;
 }
